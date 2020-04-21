@@ -47,24 +47,30 @@ namespace Sortiranje
                 for (int k = 1; k <= 1; k++)
                 {
                     sort.RandomNiz(brojElemenata, out int[] proba, "");
+                    bool p;
+                    String vreme;
 
                     Console.WriteLine("\tTest " + i + "." + k + "\r\nBROJ ELEMENATA = " + brojElemenata + "\r\n");
 
                     //memory = GC.GetTotalMemory(true);
-                    String vreme = sort.MergeSort(proba, true, out int[] sortiran);
-                    bool p = sort.Sortiran(sortiran, true);
-                    Console.WriteLine("MERGE sort:\r\n");
-                    Console.WriteLine("Vreme izvršenja =" + vreme + "\r\n");
+                    if (brojElemenata <= 10_000_000)
+                    {
+                        int[] sortiran1;
+                        vreme = sort.MergeSort(proba, true, out sortiran1);
+                        p = sort.Sortiran(sortiran1, true);
+                        Console.WriteLine("MERGE sort:\r\n");
+                        Console.WriteLine("Vreme izvršenja =" + vreme + "\r\n");
 
-                    /*Console.WriteLine("Zauzeće memorije:" + "\r\n");
-                    Console.WriteLine("Stanje pre procesа = " + memory + " B" + "\t");
-                    Console.WriteLine("Stanje na početku procesa = " + startMemory + " B" + "\t");
-                    Console.WriteLine("Maksimalno zauzeće memorije = " + maxMemory + " B" + "\r\n");
-                    Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");*/
-                    Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
+                        /*Console.WriteLine("Zauzeće memorije:" + "\r\n");
+                        Console.WriteLine("Stanje pre procesа = " + memory + " B" + "\t");
+                        Console.WriteLine("Stanje na početku procesa = " + startMemory + " B" + "\t");
+                        Console.WriteLine("Maksimalno zauzeće memorije = " + maxMemory + " B" + "\r\n");
+                        Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");*/
+                        Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
+                    }
 
                     //memory = GC.GetTotalMemory(true);
-                    vreme = sort.CountingSort(proba, true, out sortiran);
+                    vreme = sort.CountingSort(proba, true, out int[] sortiran);
                     p = sort.Sortiran(sortiran, true);
                     Console.WriteLine("COUNTING sort:\r\n");
                     Console.WriteLine("Vreme izvršenja =" + vreme + "\r\n");
@@ -75,20 +81,20 @@ namespace Sortiranje
                     //Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");
                     Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
 
-                    if (brojElemenata <= 10_000)
+                    /*if (brojElemenata <= 10_000)
                     {
                         //memory = GC.GetTotalMemory(true);
                         vreme = sort.InsertionSort(proba, true, out sortiran);
                         p = sort.Sortiran(sortiran, true);
                         Console.WriteLine("INSERTION sort:\r\n");
                         Console.WriteLine("Vreme izvršenja =" + vreme + "\r\n");
-                        /*Console.WriteLine("Zauzeće memorije = " + "\r\n");
+                        Console.WriteLine("Zauzeće memorije = " + "\r\n");
                         Console.WriteLine("Stanje pre procesa = " + memory + " B" + "\t");
                         Console.WriteLine("Stanje na početku procesa = " + startMemory + " B" + "\t");
                         Console.WriteLine("Maksimalno zauzeće memorije = " + maxMemory + " B" + "\r\n");
-                        Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");*/
+                        Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");
                         Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
-                    }
+                    }*/
 
                     //memory = GC.GetTotalMemory(true);
                     vreme = sort.HeapSort(proba, true, out sortiran);
@@ -102,7 +108,7 @@ namespace Sortiranje
                     Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");*/
                     Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
 
-                    if (brojElemenata <= 10_000)
+                    if (brojElemenata <= 100_000)
                     {
                         //memory = GC.GetTotalMemory(true);
                         vreme = sort.SelectionSort(proba, true, out sortiran);
@@ -118,8 +124,6 @@ namespace Sortiranje
                     }
 
                     Console.WriteLine("----------------------------------------------------- \r\n\r\n");
-
-                    Console.Read();
                 }
             }
         }

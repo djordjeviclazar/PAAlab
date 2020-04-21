@@ -140,8 +140,8 @@ namespace Sortiranje
                     }
 
                     /*currentMemory = GC.GetTotalMemory(true);
-                    if (currentMemory > maximalMemory) { maximalMemory = currentMemory; }
-                    return;*/
+                    if (currentMemory > maximalMemory) { maximalMemory = currentMemory; }*/
+                    return;
                 }
 
                 int c1 = heap[ind].CompareTo(heap[k - 1]);
@@ -339,8 +339,8 @@ namespace Sortiranje
 
             for (int i = 0; i < brojElemenata; i++) { niz[i] = random.Next(0, 10000); }
 
-            if (opcije.Equals("Rastući")) { MergeSort(niz, true, out niz, out _, out _); }
-            if (opcije.Equals("Opadajući")) { MergeSort(niz, false, out niz, out _, out _); }
+            if (opcije.Equals("Rastući")) { MergeSort(niz, true, out niz); }
+            if (opcije.Equals("Opadajući")) { MergeSort(niz, false, out niz); }
         }
     }
 }

@@ -108,6 +108,18 @@ namespace Sortiranje
                     Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");*/
                     Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
 
+                    //memory = GC.GetTotalMemory(true);
+                    vreme = sort.QuickSort(proba, true, out sortiran);
+                    p = sort.Sortiran(sortiran, true);
+                    Console.WriteLine("QUICK sort:\r\n");
+                    Console.WriteLine("Vreme izvršenja =" + vreme + "\r\n");
+                    /*Console.WriteLine("Zauzeće memorije = " + "\r\n");
+                    Console.WriteLine("Stanje pre procesa = " + memory + " B" + "\t");
+                    Console.WriteLine("Stanje na početku procesa = " + startMemory + " B" + "\t");
+                    Console.WriteLine("Maksimalno zauzeće memorije = " + maxMemory + " B" + "\r\n");
+                    Console.WriteLine("Maksimalno zauzeće memorije u okviru procesa = " + (maxMemory - memory) + " B" + "\r\n");*/
+                    Console.WriteLine("Sortiran: " + p + "\r\n\r\n");
+
                     if (brojElemenata <= 100_000)
                     {
                         //memory = GC.GetTotalMemory(true);

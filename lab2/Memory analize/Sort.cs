@@ -222,9 +222,10 @@ namespace Sortiranje
 
             sortiranNiz = new int[niz.Length];
 
-            if (niz.Length <= 1) 
-            { 
-                // InsertionSort(niz, rastući, out sortiranNiz, out startMemory, out _);
+            if (niz.Length <= 32) 
+            {
+                SimpleSort(niz, rastući, 0, niz.Length - 1);
+                //InsertionSort(niz, rastući, out sortiranNiz);
                 stopwatch.Stop();
 
                 sortiranNiz = niz;
@@ -233,7 +234,7 @@ namespace Sortiranje
                 return stopwatch.Elapsed + "";
             }
 
-            int[] prvaPolovina = new int[niz.Length / 2];
+            int[] prvaPolovina = new int[niz.Length >> 1];
             int[] drugaPolovina = new int[niz.Length - prvaPolovina.Length];
 
             /*long currentMemory;
@@ -301,8 +302,8 @@ namespace Sortiranje
                 int p = sortiranNiz[i], k = i - 1;
                 while ((rastući && p.CompareTo(sortiranNiz[k]) < 0) || (!rastući && p.CompareTo(sortiranNiz[k]) > 0))
                 {
-                    sortiranNiz[i--] = niz[k--];
-                    if (k < 0) { k = 0; break; }
+                    sortiranNiz[i--] = sortiranNiz[k--];
+                    if (k < 0) { break; }
 
                     /*currentMemory = GC.GetTotalMemory(true);
                     if (currentMemory > maximalMemory) { maximalMemory = currentMemory; }*/
@@ -314,6 +315,95 @@ namespace Sortiranje
             //maxMemory = maximalMemory;
             stopwatch.Stop();
             return stopwatch.Elapsed + "";
+        }
+
+        public String QuickSort(int[] niz, bool rastući, out int[] sortiranNiz)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            sortiranNiz = new int[niz.Length];
+            for (int i = 0; i < niz.Length; i++) { sortiranNiz[i] = niz[i]; }
+
+            int partitionIndex = Partition(sortiranNiz, rastući, 0, sortiranNiz.Length - 1);
+            QuickSort(sortiranNiz, rastući, 0, partitionIndex - 1);
+            QuickSort(sortiranNiz, rastući, partitionIndex + 1, sortiranNiz.Length - 1);
+
+            stopwatch.Stop();
+            return stopwatch.Elapsed + "";
+        }
+
+        void QuickSort(int[] niz, bool rastući, int prvi, int poslednji)
+        {
+            if (poslednji - prvi <= 32) { SimpleSort(niz, rastući, prvi, poslednji); }
+
+            int partitionIndex = Partition(niz, rastući, 0, poslednji);
+            QuickSort(niz, rastući, 0, partitionIndex - 1);
+            QuickSort(niz, rastući, partitionIndex + 1, poslednji);
+        }
+
+        int Partition(int[] niz, bool rastući, int prvi, int poslednji)
+        {
+            // median of three
+            int median = prvi + ((poslednji - prvi) >> 1);
+            int p;
+            if ((rastući && niz[median].CompareTo(niz[prvi]) < 0) || (!rastući && niz[median].CompareTo(niz[prvi]) > 0))
+            {
+                p = niz[median];
+                niz[median] = niz[prvi];
+                niz[prvi] = p;
+            }
+            if((rastući && niz[prvi].CompareTo(niz[poslednji]) > 0) || (!rastući && niz[prvi].CompareTo(niz[poslednji]) < 0))
+            {
+                p = niz[prvi];
+                niz[prvi] = niz[poslednji];
+                niz[poslednji] = p;
+            }
+            if ((rastući && niz[median].CompareTo(niz[poslednji]) < 0) || (!rastući && niz[median].CompareTo(niz[poslednji]) > 0))
+            {
+                p = niz[median];
+                niz[median] = niz[poslednji];
+                niz[poslednji] = p;
+            }
+            int pivot = niz[poslednji];
+
+            // partition
+            int i = prvi;
+            for (int k = prvi; k <= poslednji - 1; k++)
+            {
+                if ((rastući && niz[k].CompareTo(pivot) < 0))
+                {
+                    p = niz[k];
+                    niz[k] = niz[i];
+                    niz[i] = p;
+                    i++;
+                }
+            }
+            p = niz[poslednji];
+            niz[poslednji] = niz[i];
+            niz[i] = p;
+            return i;
+        }
+
+        void SimpleSort(int[] niz, bool rastući, int prvi, int poslednji)
+        {
+            bool t =true;
+            int i = prvi;
+            while(t)
+            {
+                t = false;
+                for (int k = i + 1; k <= poslednji; k++)
+                {
+                    if ((rastući && niz[k - 1].CompareTo(niz[k]) > 0) || (!rastući && niz[k - 1].CompareTo(niz[k]) < 0))
+                    {
+                        int p = niz[k - 1];
+                        niz[k - 1] = niz[k];
+                        niz[k] = p;
+                        t = true;
+                    }
+                }
+                i++;
+            }
         }
 
         public bool Sortiran(int [] niz, bool rastući)

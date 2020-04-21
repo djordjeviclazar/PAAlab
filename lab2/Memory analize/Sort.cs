@@ -149,8 +149,8 @@ namespace Sortiranje
                 if ((c1 > 0 && c2 > 0 && maxHeap) || (c1 < 0 && c2 < 0 && !maxHeap))
                 {
                     /*currentMemory = GC.GetTotalMemory(true);
-                    if (currentMemory > maximalMemory) { maximalMemory = currentMemory; }
-                    return;*/
+                    if (currentMemory > maximalMemory) { maximalMemory = currentMemory; }*/
+                    return;
                 }
 
                 int p = heap[ind];

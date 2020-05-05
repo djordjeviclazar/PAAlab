@@ -26,7 +26,7 @@ namespace Heap
             }
 
             // heapify:
-            for (int i = ((length - 1) >> 2); i >= 0; i++)
+            for (int i = ((length - 1) >> 1); i >= 0; i--)
             {
                 DownHeap(ref this.elements, i, length - 1, false);
             }
@@ -84,7 +84,7 @@ namespace Heap
 
             while (ind > 0)
             {
-                int k = ((ind + 1) >> 2) - 1;
+                int k = ((ind + 1) >> 1) - 1;
 
                 int c = heap[ind].CompareTo(heap[k]);
                 if ((c > 0 && !maxHeap) || (c < 0 && maxHeap))
@@ -103,7 +103,7 @@ namespace Heap
         {
             while (ind < lastElement)
             {
-                int k = (ind + 1) << 2;
+                int k = (ind + 1) << 1;
                 if (k - 1 > lastElement) { return; }
                 if (k - 1 == lastElement)
                 {

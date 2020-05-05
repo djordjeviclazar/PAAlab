@@ -813,6 +813,32 @@ namespace Heap
             Console.WriteLine("**********************************");
 
             #endregion
+
+            #region Provera
+
+            Console.WriteLine("\t\t TEST \r\n");
+
+            provera = true;
+            int[] testBinomni = new int[binomniHeap.Length];
+            int[] testBinarni = new int[binarniHeap.Length];
+            
+            {
+                for (int i = 0; i < testBinomni.Length; i++)
+                {
+                    testBinomni[i] = binomniHeap.ExtractMin();
+                }
+                for (int i = 0; i < testBinarni.Length; i++)
+                {
+                    testBinarni[i] = binarniHeap.ExtractMin();
+                }
+                provera = sort.Sortiran(testBinomni, true);
+                Console.WriteLine("Binomni heap: " + provera);
+                provera = sort.Sortiran(testBinarni, true);
+                Console.WriteLine("Binarni heap: " + provera);
+            }
+            #endregion
+
+            Console.ReadLine();
         }
     }
 }

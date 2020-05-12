@@ -1,0 +1,6 @@
+C:\Users\Laki\Documents\GitHub\PAAlab\lab5\B-stabla\B-stabla\bin\Debug\B-stabla.exe.config
+C:\Users\Laki\Documents\GitHub\PAAlab\lab5\B-stabla\B-stabla\bin\Debug\B-stabla.exe
+C:\Users\Laki\Documents\GitHub\PAAlab\lab5\B-stabla\B-stabla\bin\Debug\B-stabla.pdb
+C:\Users\Laki\Documents\GitHub\PAAlab\lab5\B-stabla\B-stabla\obj\Debug\B-stabla.csprojAssemblyReference.cache
+C:\Users\Laki\Documents\GitHub\PAAlab\lab5\B-stabla\B-stabla\obj\Debug\B-stabla.exe
+C:\Users\Laki\Documents\GitHub\PAAlab\lab5\B-stabla\B-stabla\obj\Debug\B-stabla.pdb

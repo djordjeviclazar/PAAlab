@@ -73,15 +73,15 @@ namespace Heap
             Console.ReadLine();
             */
             #endregion
-
+            
             #region BinomniHeap
 
             BinomniHeap binomniHeap;
-
+            
             Console.Write("\t\t BINOMNI HEAP \r\n\r\n");
 
             #region BinomniHeap-10-el
-
+            
             brojElemenata = 10;
             Console.WriteLine("Broj elemenata:" + brojElemenata + "\r\n");
             sort.RandomNiz(brojElemenata, out niz, "");
@@ -151,9 +151,9 @@ namespace Heap
             Console.WriteLine("--------------------------");
 
             #endregion
-
+            /*
             #region BinomniHeap-100-el
-
+            
             brojElemenata = 100;
             Console.WriteLine("Broj elemenata:" + brojElemenata + "\r\n");
             sort.RandomNiz(brojElemenata, out niz, "");
@@ -441,9 +441,9 @@ namespace Heap
             #endregion
 
             Console.WriteLine("**********************************");
-
+            */
             #endregion
-
+    
             #region BinarniHeap
 
             BinarniHeap binarniHeap;
@@ -819,20 +819,20 @@ namespace Heap
             Console.WriteLine("\t\t TEST \r\n");
 
             provera = true;
-            int[] testBinomni = new int[binomniHeap.Length];
+            //int[] testBinomni = new int[binomniHeap.Length];
             int[] testBinarni = new int[binarniHeap.Length];
             
             {
-                for (int i = 0; i < testBinomni.Length; i++)
+                /*for (int i = 0; i < testBinomni.Length; i++)
                 {
                     testBinomni[i] = binomniHeap.ExtractMin();
-                }
+                }*/
                 for (int i = 0; i < testBinarni.Length; i++)
                 {
                     testBinarni[i] = binarniHeap.ExtractMin();
                 }
-                provera = sort.Sortiran(testBinomni, true);
-                Console.WriteLine("Binomni heap: " + provera);
+                //provera = sort.Sortiran(testBinomni, true);
+                //Console.WriteLine("Binomni heap: " + provera);
                 provera = sort.Sortiran(testBinarni, true);
                 Console.WriteLine("Binarni heap: " + provera);
             }

@@ -59,6 +59,7 @@ namespace RBstabla
             stopwatch.Start();
 
             koren = DodajČvor(koren, ključ, obj);
+            koren.crven = false;
             brojElemenata++;
 
             stopwatch.Stop();
@@ -67,7 +68,7 @@ namespace RBstabla
 
         private Čvor DodajČvor(Čvor čvor, int noviKljuč, object noviElement)
         {
-            if (čvor == null) { return new Čvor(noviKljuč, noviElement); }
+            if (čvor == null) { return new Čvor(noviKljuč, noviElement) { crven = true }; }
 
             if (čvor.ključ == noviKljuč) { čvor.obj = noviElement; }
             else
@@ -93,12 +94,13 @@ namespace RBstabla
             stopwatch.Start();
 
             koren = BrišiČvor(koren, ključ, out uspešnaOperacija);
+            if (uspešnaOperacija) { brojElemenata--; }
 
             stopwatch.Stop();
             return stopwatch.ElapsedMilliseconds + "";
         }
 
-        private Čvor BrišiČvor(Čvor čvor, int noviKljuč, out bool uspešnaOperacija)
+        private Čvor BrišiČvor(Čvor čvor, int ključ, out bool uspešnaOperacija)
         {
             if (čvor == null)
             {
@@ -106,21 +108,105 @@ namespace RBstabla
                 return null;
             }
 
-            if (čvor.ključ == noviKljuč) 
+            if (čvor.ključ > ključ)
             {
-                čvor.obj = noviElement; 
+                if ((čvor.levo != null && čvor.levo.levo != null) && (!čvor.levo.crven && !čvor.levo.levo.crven))
+                {
+                    čvor = SpojiLevo(čvor);
+                }
+                čvor.levo = BrišiČvor(čvor.levo, ključ, out uspešnaOperacija);
             }
             else
             {
-                if (čvor.ključ > noviKljuč) 
-                { 
-                    čvor.desno = DodajČvor(čvor.desno, noviKljuč, noviElement); 
-                }
-                else 
+                if (čvor.levo != null && čvor.levo.crven)
                 {
-                    čvor.levo = DodajČvor(čvor.levo, noviKljuč, noviElement); 
+                    čvor = čvor.RotirajDesno();
+                }
+                if (ključ == čvor.ključ && čvor.desno == null)
+                {
+                    uspešnaOperacija = true;
+                    return null;
+                }
+                if ((čvor.desno != null && čvor.desno.levo != null) && !čvor.desno.crven && !čvor.desno.levo.crven)
+                {
+                    čvor = SpojiDesno(čvor);
+                }
+                if (čvor.ključ == ključ)
+                {
+                    Čvor pom = Min(čvor);
+                    čvor.ključ = pom.ključ;
+                    čvor.obj = pom.obj;
+                    čvor.desno = BrišiMin(čvor.desno);
+
+                    uspešnaOperacija = true;
+                }
+                else
+                {
+                    čvor = BrišiČvor(čvor.desno, ključ, out uspešnaOperacija);
                 }
             }
+
+            // provera uslova:
+            if ((čvor.desno != null && čvor.desno.crven) && (čvor.levo == null || !čvor.levo.crven))
+            { čvor = čvor.RotirajLevo(); }
+            if ((čvor.levo != null && čvor.levo.crven) && (čvor.levo.levo != null && čvor.levo.levo.crven))
+            { čvor = čvor.RotirajDesno(); }
+            if ((čvor.levo != null && čvor.levo.crven) && (čvor.desno != null && čvor.desno.crven))
+            { čvor.PromeniBoje(); }
+
+            return čvor;
+        }
+
+        private Čvor BrišiMin(Čvor čvor)
+        {
+            if (čvor == null) { return null; }
+
+            if ((čvor.levo != null && čvor.levo.levo != null) && (!čvor.levo.crven && !čvor.levo.levo.crven))
+            {
+                čvor = SpojiLevo(čvor);
+            }
+
+            čvor.levo = BrišiMin(čvor.levo);
+
+            // provera uslova:
+            if ((čvor.desno != null && čvor.desno.crven) && (čvor.levo == null || !čvor.levo.crven))
+            { čvor = čvor.RotirajLevo(); }
+            if ((čvor.levo != null && čvor.levo.crven) && (čvor.levo.levo != null && čvor.levo.levo.crven))
+            { čvor = čvor.RotirajDesno(); }
+            if ((čvor.levo != null && čvor.levo.crven) && (čvor.desno != null && čvor.desno.crven))
+            { čvor.PromeniBoje(); }
+
+            return čvor;
+        }
+
+        private Čvor Min(Čvor čvor)
+        {
+            if (čvor.levo == null) { return čvor; }
+            else { return Min(čvor.levo); }
+        }
+
+        private Čvor SpojiLevo(Čvor čvor)
+        {
+            čvor.PromeniBoje();
+            if (čvor.desno != null && čvor.desno.levo != null && čvor.desno.levo.crven)
+            {
+                // Dva crvena čvora za redom
+                čvor.desno = čvor.desno.RotirajDesno();
+                čvor = čvor.RotirajLevo();
+                čvor.PromeniBoje();
+            }
+            return čvor;
+        }
+
+        private Čvor SpojiDesno(Čvor čvor)
+        {
+            čvor.PromeniBoje();
+            if (čvor.desno != null && čvor.desno.levo != null && čvor.desno.levo.crven)
+            {
+                čvor = čvor.RotirajDesno();
+                čvor.PromeniBoje();
+            }
+            return čvor;
         }
 
         class Čvor
@@ -150,9 +236,9 @@ namespace RBstabla
 
             internal void PromeniBoje()
             {
-                this.crven = true;
-                this.desno.crven = false;
-                this.levo.crven = false;
+                this.crven = !this.crven;
+                this.desno.crven = !this.desno.crven;
+                this.levo.crven = !this.levo.crven;
             }
 
             internal Čvor RotirajLevo()

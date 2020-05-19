@@ -73,7 +73,7 @@ namespace RBstabla
             if (čvor.ključ == noviKljuč) { čvor.obj = noviElement; }
             else
             {
-                if (čvor.ključ > noviKljuč) { čvor.desno = DodajČvor(čvor.desno, noviKljuč, noviElement); }
+                if (čvor.ključ <= noviKljuč) { čvor.desno = DodajČvor(čvor.desno, noviKljuč, noviElement); }
                 else { čvor.levo = DodajČvor(čvor.levo, noviKljuč, noviElement); }
             }
 
@@ -93,8 +93,16 @@ namespace RBstabla
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            if (koren != null && koren.levo != null && koren.desno != null && !koren.levo.crven && !koren.desno.crven)
+            {
+                koren.crven = true;
+            }
             koren = BrišiČvor(koren, ključ, out uspešnaOperacija);
             if (uspešnaOperacija) { brojElemenata--; }
+            if (koren != null)
+            {
+                koren.crven = false;
+            }
 
             stopwatch.Stop();
             return stopwatch.ElapsedMilliseconds + "";
@@ -133,7 +141,7 @@ namespace RBstabla
                 }
                 if (čvor.ključ == ključ)
                 {
-                    Čvor pom = Min(čvor);
+                    Čvor pom = Min(čvor.desno);
                     čvor.ključ = pom.ključ;
                     čvor.obj = pom.obj;
                     čvor.desno = BrišiMin(čvor.desno);
@@ -142,24 +150,27 @@ namespace RBstabla
                 }
                 else
                 {
-                    čvor = BrišiČvor(čvor.desno, ključ, out uspešnaOperacija);
+                    čvor.desno = BrišiČvor(čvor.desno, ključ, out uspešnaOperacija);
                 }
             }
 
             // provera uslova:
-            if ((čvor.desno != null && čvor.desno.crven) && (čvor.levo == null || !čvor.levo.crven))
-            { čvor = čvor.RotirajLevo(); }
-            if ((čvor.levo != null && čvor.levo.crven) && (čvor.levo.levo != null && čvor.levo.levo.crven))
-            { čvor = čvor.RotirajDesno(); }
-            if ((čvor.levo != null && čvor.levo.crven) && (čvor.desno != null && čvor.desno.crven))
-            { čvor.PromeniBoje(); }
+            if (čvor != null)
+            {
+                if ((čvor.desno != null && čvor.desno.crven) && (čvor.levo == null || !čvor.levo.crven))
+                { čvor = čvor.RotirajLevo(); }
+                if ((čvor.levo != null && čvor.levo.crven) && (čvor.levo.levo != null && čvor.levo.levo.crven))
+                { čvor = čvor.RotirajDesno(); }
+                if ((čvor.levo != null && čvor.levo.crven) && (čvor.desno != null && čvor.desno.crven))
+                { čvor.PromeniBoje(); }
+            }
 
             return čvor;
         }
 
         private Čvor BrišiMin(Čvor čvor)
         {
-            if (čvor == null) { return null; }
+            if (čvor.levo == null) { return null; }
 
             if ((čvor.levo != null && čvor.levo.levo != null) && (!čvor.levo.crven && !čvor.levo.levo.crven))
             {

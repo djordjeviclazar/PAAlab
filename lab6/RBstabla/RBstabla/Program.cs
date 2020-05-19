@@ -15,7 +15,7 @@ namespace RBstabla
             RBstablo rb;
             Random random = new Random();
             string vreme;
-            int[] niz;
+            // int[] niz;
             int br, p, t;
             bool pom;
 
@@ -28,7 +28,8 @@ namespace RBstabla
             Console.WriteLine("------------------------");
 
             br = 10;
-            sort.RandomNiz(br, out niz, "");
+            //sort.RandomNiz(br, out niz, "");
+            int[] niz = { 5, 15, 2, 1, 0, 22, 3, 4, 7, 11};
             rb = new RBstablo();
 
             // Kreiranje
@@ -45,7 +46,7 @@ namespace RBstabla
             Console.WriteLine("*******************");
             for (int i = 0; i < br / 10; i++)
             {
-                vreme = rb.Brisanje(random.Next(0, 10000), out pom);
+                vreme = rb.Brisanje(15, out pom);
                 Console.WriteLine(i + ") vreme = " + vreme + "\t uspeh: " + pom);
             }
 
@@ -55,7 +56,7 @@ namespace RBstabla
             for (int i = 0; i < br / 10; i++)
             {
                 t = random.Next(0, 10000);
-                vreme = rb.Pretraga(t, out pom, out p, out _);
+                vreme = rb.Pretraga(0, out pom, out p, out _);
                 Console.WriteLine(i + ") vreme = " + vreme + "\t uspeh: " + (pom && (p == t)));
             }
 
@@ -259,6 +260,7 @@ namespace RBstabla
             for (int i = 0; i < br / 10; i++)
             {
                 t = random.Next(0, 10000);
+                t = niz[t % 5000]; 
                 vreme = rb.Pretraga(t, out pom, out p, out _);
                 Console.WriteLine(i + ") vreme = " + vreme + "\t uspeh: " + (pom && (p == t)));
             }
@@ -276,6 +278,8 @@ namespace RBstabla
             Console.WriteLine("------------------------");
 
             #endregion
+
+            Console.ReadLine();
         }
     }
 }
